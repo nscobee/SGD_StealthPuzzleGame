@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class playerMovement : MonoBehaviour
 {
@@ -9,6 +10,11 @@ public class playerMovement : MonoBehaviour
     public float BASESPEED;
     public float runMultiplier;
     public float MAXSPEED;
+    public bool isHolding = false;
+
+    public Text interactTxt;
+    public Transform pickUpRegion;
+    public GameObject heldItem;
 
     public float mouseSensitivity = 100.0f;
     public float clampAngle = 80.0f;
@@ -70,6 +76,50 @@ public class playerMovement : MonoBehaviour
 
         Quaternion localRotation = Quaternion.Euler(rotX, rotY, 0.0f);
         transform.rotation = localRotation;
+
+
+        //letting Go of Objects
+        if(isHolding)
+        {
+            interactTxt.text = "Press 'F' to drop.";
+            if(Input.GetKeyDown(KeyCode.F))
+            {
+                interactTxt.gameObject.SetActive(false);
+                heldItem.transform.SetParent(null);
+                heldItem.GetComponent<Rigidbody>().useGravity = true;
+                isHolding = false;
+            }
+        }
     }
-    
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "moveable")
+        {
+            interactTxt.gameObject.SetActive(true);
+            interactTxt.text = "Press 'E' to pickup.";
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            other.gameObject.transform.SetParent(pickUpRegion.transform);
+            other.transform.localRotation = pickUpRegion.rotation;
+            other.transform.position = pickUpRegion.position;
+            other.GetComponent<Rigidbody>().useGravity = false;
+            heldItem = other.gameObject;
+            isHolding = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "moveable")
+        {
+            interactTxt.gameObject.SetActive(false);
+        }
+    }
+
 }
