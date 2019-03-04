@@ -87,6 +87,7 @@ public class playerMovement : MonoBehaviour
                 interactTxt.gameObject.SetActive(false);
                 heldItem.transform.SetParent(null);
                 heldItem.GetComponent<Rigidbody>().useGravity = true;
+                heldItem.GetComponent<Rigidbody>().isKinematic = false;
                 isHolding = false;
             }
         }
@@ -94,7 +95,7 @@ public class playerMovement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "moveable")
+        if(other.tag == "moveable" || !other.gameObject.GetComponent<itemMatching>().hasMatched)
         {
             interactTxt.gameObject.SetActive(true);
             interactTxt.text = "Press 'E' to pickup.";
@@ -103,12 +104,13 @@ public class playerMovement : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if(Input.GetKeyDown(KeyCode.E))
+        if(Input.GetKeyDown(KeyCode.E) && !other.gameObject.GetComponent<itemMatching>().hasMatched)
         {
             other.gameObject.transform.SetParent(pickUpRegion.transform);
             other.transform.localRotation = pickUpRegion.rotation;
             other.transform.position = pickUpRegion.position;
             other.GetComponent<Rigidbody>().useGravity = false;
+            other.GetComponent<Rigidbody>().isKinematic = true;
             heldItem = other.gameObject;
             isHolding = true;
         }
@@ -116,7 +118,7 @@ public class playerMovement : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "moveable")
+        if (other.tag == "moveable" || !other.gameObject.GetComponent<itemMatching>().hasMatched)
         {
             interactTxt.gameObject.SetActive(false);
         }
