@@ -14,6 +14,8 @@ public class puzzleController : MonoBehaviour
     public GameObject blockade3;
     public GameObject blockade4;
 
+    public GameObject playerController;
+
     public Camera main;
     public Camera secondary;
     private bool cameraBool = true;
@@ -28,14 +30,35 @@ public class puzzleController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (puzzle1 >= 100)
+        if (puzzle1 >= 100 && puzzle1 < 200)
+        {
+            switchCamera();
             Destroy(blockade1);
-        if (puzzle2 >= 100)
+            puzzle1 = 250;
+            StartCoroutine(PausePlayer());
+
+        }
+        if (puzzle2 >= 100 && puzzle2 < 200)
+        {
+            switchCamera();
             Destroy(blockade2);
-        if (puzzle3 >= 100)
+            puzzle2 = 250;
+            StartCoroutine(PausePlayer());
+        }
+        if (puzzle3 >= 100 && puzzle3 < 200)
+        {
+            switchCamera();
             Destroy(blockade3);
-        if (puzzle4 >= 100)
+            puzzle3 = 250;
+            StartCoroutine(PausePlayer());
+        }
+        if (puzzle4 >= 100 && puzzle4 < 200)
+        {
+            switchCamera();
             Destroy(blockade4);
+            puzzle4 = 250;
+            StartCoroutine(PausePlayer());
+        }
 
         //Testing Only
         if(Input.GetKeyDown(KeyCode.Alpha1))
@@ -60,5 +83,14 @@ public class puzzleController : MonoBehaviour
             secondary.enabled = false;
             cameraBool = true;
         }
+    }
+
+    IEnumerator PausePlayer()
+    {
+        playerController.GetComponent<playerMovement>().enabled = false;
+        yield return new WaitForSecondsRealtime(4);
+        playerController.GetComponent<playerMovement>().enabled = true;
+        switchCamera();
+
     }
 }
