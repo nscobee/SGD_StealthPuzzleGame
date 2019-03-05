@@ -6,7 +6,9 @@ public class itemMatching : MonoBehaviour
 {
     public string baseTag;
     public puzzleController puzzleControls;
+    public int puzzleNumber;
 
+    public bool isItem;
     public bool hasMatched = false;
     
     // Start is called before the first frame update
@@ -27,8 +29,15 @@ public class itemMatching : MonoBehaviour
         {
             other.gameObject.tag = "matched";
             hasMatched = true;
-            puzzleControls.puzzle3 += 15;
-            
+            if(puzzleNumber == 1 && !isItem)
+                puzzleControls.puzzle1 += 15;
+            if (puzzleNumber == 2 && !isItem)
+                puzzleControls.puzzle2 += 15;
+            if (puzzleNumber == 3 && !isItem)
+                puzzleControls.puzzle3 += 15;
+            if (puzzleNumber == 4 && !isItem)
+                puzzleControls.puzzle4 += 15;
+
         }
     }
 }

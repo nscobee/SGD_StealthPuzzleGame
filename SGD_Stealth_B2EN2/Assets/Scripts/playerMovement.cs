@@ -13,6 +13,7 @@ public class playerMovement : MonoBehaviour
     public bool isHolding = false;
 
     public Text interactTxt;
+    public GameObject interactPanel;
     public Transform pickUpRegion;
     public GameObject heldItem;
 
@@ -84,7 +85,7 @@ public class playerMovement : MonoBehaviour
             interactTxt.text = "Press 'F' to drop.";
             if(Input.GetKeyDown(KeyCode.F))
             {
-                interactTxt.gameObject.SetActive(false);
+                interactPanel.gameObject.SetActive(false);
                 heldItem.transform.SetParent(null);
                 heldItem.GetComponent<Rigidbody>().useGravity = true;
                 heldItem.GetComponent<Rigidbody>().isKinematic = false;
@@ -95,16 +96,27 @@ public class playerMovement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "moveable" || !other.gameObject.GetComponent<itemMatching>().hasMatched)
+        if(other.tag == "buttonPush")
         {
-            interactTxt.gameObject.SetActive(true);
+            interactPanel.gameObject.SetActive(true);
+            interactTxt.text = "Press 'E' to Read Description.";
+        }
+
+        else if(!isHolding && (!other.gameObject.GetComponent<itemMatching>().hasMatched || other.tag == "moveable"))
+        {
+            interactPanel.gameObject.SetActive(true);
             interactTxt.text = "Press 'E' to pickup.";
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if(Input.GetKeyDown(KeyCode.E) && !other.gameObject.GetComponent<itemMatching>().hasMatched)
+        if(other.tag == "buttonPush" && Input.GetKeyDown(KeyCode.E))
+        {
+            //insert pop up text here
+        }
+
+        else if(Input.GetKeyDown(KeyCode.E) && !other.gameObject.GetComponent<itemMatching>().hasMatched)
         {
             other.gameObject.transform.SetParent(pickUpRegion.transform);
             other.transform.localRotation = pickUpRegion.rotation;
@@ -118,9 +130,13 @@ public class playerMovement : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "moveable" || !other.gameObject.GetComponent<itemMatching>().hasMatched)
+        if(other.tag == "buttonPush")
         {
-            interactTxt.gameObject.SetActive(false);
+            interactPanel.gameObject.SetActive(false);
+        }
+        else if (!isHolding && (!other.gameObject.GetComponent<itemMatching>().hasMatched || other.tag == "moveable"))
+        {
+            interactPanel.gameObject.SetActive(false);
         }
     }
 

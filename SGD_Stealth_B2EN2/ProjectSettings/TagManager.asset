@@ -12,6 +12,7 @@ TagManager:
   - Sword
   - Cart
   - Flag
+  - buttonPush
   layers:
   - Default
   - TransparentFX

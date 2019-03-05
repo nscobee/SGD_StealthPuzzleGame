@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 7553083190297254292}
   - component: {fileID: 7553083190297254283}
   - component: {fileID: 7553083190297254294}
+  - component: {fileID: 6039513025692521289}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -172,6 +173,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseSensitivity: 100
   clampAngle: 80
+--- !u!114 &6039513025692521289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7553083190297254282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db79c6b0f616f6e44b45b2757503246b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  puzzle1: 0
+  puzzle2: 0
+  puzzle3: 0
+  puzzle4: 0
+  blockade1: {fileID: 0}
+  blockade2: {fileID: 0}
+  blockade3: {fileID: 0}
+  blockade4: {fileID: 0}
+  playerController: {fileID: 0}
+  main: {fileID: 7553083190297254292}
+  secondary: {fileID: 0}
 --- !u!1 &7553083190500782471
 GameObject:
   m_ObjectHideFlags: 0
