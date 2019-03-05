@@ -5,6 +5,13 @@ TagManager:
   serializedVersion: 2
   tags:
   - moveable
+  - Hat
+  - Gun
+  - Book
+  - Badge
+  - Sword
+  - Cart
+  - Flag
   layers:
   - Default
   - TransparentFX
