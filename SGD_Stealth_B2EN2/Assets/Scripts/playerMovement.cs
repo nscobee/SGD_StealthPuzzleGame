@@ -10,10 +10,12 @@ public class playerMovement : MonoBehaviour
     public float BASESPEED;
     public float runMultiplier;
     public float MAXSPEED;
+    public bool canMove = true;
     public bool isHolding = false;
 
     public Text interactTxt;
     public GameObject interactPanel;
+    public puzzleController puzzleControls;
     public Transform pickUpRegion;
     public GameObject heldItem;
 
@@ -34,6 +36,7 @@ public class playerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             isRunning = true;
@@ -49,22 +52,25 @@ public class playerMovement : MonoBehaviour
             if (speed > MAXSPEED) speed = MAXSPEED;
         }
 
-        //movement
-        if (Input.GetKey(KeyCode.W))
+        if (canMove)
         {
-            transform.position += transform.forward * speed * Time.deltaTime;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            transform.position += -transform.forward * speed * Time.deltaTime;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            transform.position += transform.right * speed * Time.deltaTime;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.position += -transform.right * speed * Time.deltaTime;
+            //movement
+            if (Input.GetKey(KeyCode.W))
+            {
+                transform.position += transform.forward * speed * Time.deltaTime;
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                transform.position += -transform.forward * speed * Time.deltaTime;
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                transform.position += transform.right * speed * Time.deltaTime;
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                transform.position += -transform.right * speed * Time.deltaTime;
+            }
         }
 
         float mouseX = Input.GetAxis("Mouse X");
@@ -75,7 +81,7 @@ public class playerMovement : MonoBehaviour
 
         //rotX = Mathf.Clamp(rotX, -clampAngle, clampAngle);
 
-        Quaternion localRotation = Quaternion.Euler(rotX, rotY, 0.0f);
+        Quaternion localRotation = Quaternion.Euler(0.0f, rotY, 0.0f);
         transform.rotation = localRotation;
 
 
@@ -96,13 +102,27 @@ public class playerMovement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "buttonPush")
+
+
+        if (other.tag == "buttonPush")
+        {
+            interactPanel.gameObject.SetActive(true);
+            interactTxt.text = "Press 'E' to Read Description.";
+        }        
+        
+        else if (other.tag == "Abe" && puzzleControls.puzzle1 >= 80 && puzzleControls.puzzle1 < 100)
         {
             interactPanel.gameObject.SetActive(true);
             interactTxt.text = "Press 'E' to Read Description.";
         }
 
-        else if(!isHolding && (!other.gameObject.GetComponent<itemMatching>().hasMatched || other.tag == "moveable"))
+        else if (other.tag == "Abe" && puzzleControls.puzzle1 <80)
+        {
+            interactPanel.gameObject.SetActive(true);
+            interactTxt.text = "You can't do this yet.";
+        }
+
+        else if (!isHolding && (other.tag == "moveable" || !other.gameObject.GetComponent<itemMatching>().hasMatched))
         {
             interactPanel.gameObject.SetActive(true);
             interactTxt.text = "Press 'E' to pickup.";
@@ -111,9 +131,15 @@ public class playerMovement : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if(other.tag == "buttonPush" && Input.GetKeyDown(KeyCode.E))
+        if (other.tag == "Abe" && Input.GetKeyDown(KeyCode.E) && puzzleControls.puzzle1 >= 80)
         {
-            //insert pop up text here
+            other.GetComponent<popUpTextAbe>().activateText();
+        }
+
+        else if (other.tag == "buttonPush" && Input.GetKeyDown(KeyCode.E))
+        {
+            //print("button pressed");
+            other.GetComponent<popUpText>().activateText();
         }
 
         else if(Input.GetKeyDown(KeyCode.E) && !other.gameObject.GetComponent<itemMatching>().hasMatched)
@@ -130,11 +156,12 @@ public class playerMovement : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.tag == "buttonPush")
+        if(other.tag == "buttonPush" || other.tag == "Abe")
         {
             interactPanel.gameObject.SetActive(false);
         }
-        else if (!isHolding && (!other.gameObject.GetComponent<itemMatching>().hasMatched || other.tag == "moveable"))
+
+        else if (!isHolding && (other.tag == "moveable" || !other.gameObject.GetComponent<itemMatching>().hasMatched))
         {
             interactPanel.gameObject.SetActive(false);
         }
