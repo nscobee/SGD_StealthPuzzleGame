@@ -34,7 +34,7 @@ public class playerMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void  FixedUpdate()
     {
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -122,7 +122,7 @@ public class playerMovement : MonoBehaviour
             interactTxt.text = "You can't do this yet.";
         }
 
-        else if (!isHolding && (other.tag == "moveable" || !other.gameObject.GetComponent<itemMatching>().hasMatched))
+        else if (!isHolding && (other.gameObject.tag == "moveable" || !other.gameObject.GetComponent<itemMatching>().hasMatched))
         {
             interactPanel.gameObject.SetActive(true);
             interactTxt.text = "Press 'E' to pickup.";
@@ -142,7 +142,7 @@ public class playerMovement : MonoBehaviour
             other.GetComponent<popUpText>().activateText();
         }
 
-        else if(Input.GetKeyDown(KeyCode.E) && !other.gameObject.GetComponent<itemMatching>().hasMatched)
+        else if(Input.GetKeyDown(KeyCode.E) && ( other.gameObject.tag == "moveable" || !other.gameObject.GetComponent<itemMatching>().hasMatched))
         {
             other.gameObject.transform.SetParent(pickUpRegion.transform);
             other.transform.localRotation = pickUpRegion.rotation;
@@ -161,7 +161,7 @@ public class playerMovement : MonoBehaviour
             interactPanel.gameObject.SetActive(false);
         }
 
-        else if (!isHolding && (other.tag == "moveable" || !other.gameObject.GetComponent<itemMatching>().hasMatched))
+        else if (!isHolding && (other.gameObject.tag == "moveable" || !other.gameObject.GetComponent<itemMatching>().hasMatched))
         {
             interactPanel.gameObject.SetActive(false);
         }
