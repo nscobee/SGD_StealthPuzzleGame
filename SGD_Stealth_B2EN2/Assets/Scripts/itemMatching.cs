@@ -10,6 +10,9 @@ public class itemMatching : MonoBehaviour
 
     public bool isItem;
     public bool hasMatched = false;
+
+    public Material correctItem;
+    public Material wrongItem;
     
     // Start is called before the first frame update
     void Start()
@@ -27,16 +30,27 @@ public class itemMatching : MonoBehaviour
     {
         if( baseTag == other.gameObject.tag && !hasMatched)
         {
-            other.gameObject.tag = "matched";
             hasMatched = true;
+            other.gameObject.tag = "matched";
+            other.gameObject.GetComponent<itemMatching>().hasMatched = true;
+            
             if(puzzleNumber == 1 && !isItem)
                 puzzleControls.puzzle1 += 15;
             if (puzzleNumber == 2 && !isItem)
                 puzzleControls.puzzle2 += 15;
             if (puzzleNumber == 3 && !isItem)
+            {
                 puzzleControls.puzzle3 += 15;
+                this.gameObject.GetComponent<Renderer>().material = correctItem;
+            }
+            
             if (puzzleNumber == 4 && !isItem)
                 puzzleControls.puzzle4 += 15;
+
+        }
+        else
+        {
+            if (puzzleNumber == 3 && other.GetComponent<itemMatching>()) this.gameObject.GetComponent<Renderer>().material = wrongItem;
 
         }
     }

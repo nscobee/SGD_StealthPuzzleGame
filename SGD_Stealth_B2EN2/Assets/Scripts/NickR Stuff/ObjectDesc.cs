@@ -8,15 +8,19 @@ public class ObjectDesc : MonoBehaviour
     public string words;
     public GameObject panel_Interact;
     public Text infoWindowTxt;
+    public GameObject playerController;
 
     void Start()
     {
-        
+        playerController = GameObject.FindGameObjectWithTag("Player");
     }
 
     void Update()
     {
-        
+        if(playerController.GetComponent<playerMovement>().isHolding)
+        {
+            panel_Interact.SetActive(false);
+        }
     }
 
     public void OnTriggerEnter(Collider other)
