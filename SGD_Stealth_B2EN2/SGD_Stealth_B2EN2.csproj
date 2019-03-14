@@ -679,6 +679,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\LoadScenesB.cs" />
     <Compile Include="Assets\ProCore\ProBuilder\API Examples\Icosphere FFT\Scripts\CameraControls.cs" />
     <Compile Include="Assets\ProCore\ProBuilder\API Examples\Icosphere FFT\Scripts\IcoBumpin.cs" />
     <Compile Include="Assets\ProCore\ProBuilder\API Examples\Misc\HueCube.cs" />
@@ -691,6 +692,7 @@
     <Compile Include="Assets\Scripts\itemMatching.cs" />
     <Compile Include="Assets\Scripts\lockRotation.cs" />
     <Compile Include="Assets\Scripts\NickR Stuff\ObjectDesc.cs" />
+    <Compile Include="Assets\Scripts\NickR Stuff\PictureReader.cs" />
     <Compile Include="Assets\Scripts\NickR Stuff\PiecePicker.cs" />
     <Compile Include="Assets\Scripts\noEntryDoor.cs" />
     <Compile Include="Assets\Scripts\playerMovement.cs" />
