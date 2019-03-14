@@ -690,6 +690,7 @@
     <Compile Include="Assets\Scripts\gameClear.cs" />
     <Compile Include="Assets\Scripts\itemMatching.cs" />
     <Compile Include="Assets\Scripts\lockRotation.cs" />
+    <Compile Include="Assets\Scripts\NickR Stuff\ObjectDesc.cs" />
     <Compile Include="Assets\Scripts\NickR Stuff\PiecePicker.cs" />
     <Compile Include="Assets\Scripts\noEntryDoor.cs" />
     <Compile Include="Assets\Scripts\playerMovement.cs" />
