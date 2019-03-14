@@ -18,6 +18,7 @@ public class popUpText : MonoBehaviour
     public bool isCritical = false;
     private bool hasRead = false;
     private bool isOpen = false;
+    public bool isWill = false;
     
 
     // Start is called before the first frame update
@@ -33,6 +34,10 @@ public class popUpText : MonoBehaviour
         {
             if(Input.GetKeyDown(KeyCode.Space))
             {
+                if(isWill)
+                {
+                    Application.Quit();
+                }
                 deactivateText();
             }
         }

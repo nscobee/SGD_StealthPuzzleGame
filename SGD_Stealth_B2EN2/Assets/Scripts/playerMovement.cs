@@ -134,11 +134,13 @@ public class playerMovement : MonoBehaviour
         if (other.tag == "Abe" && Input.GetKeyDown(KeyCode.E) && puzzleControls.puzzle1 >= 80)
         {
             other.GetComponent<popUpTextAbe>().activateText();
+            interactPanel.gameObject.SetActive(false);
         }
 
         else if (other.tag == "buttonPush" && Input.GetKeyDown(KeyCode.E))
         {
             //print("button pressed");
+            interactPanel.gameObject.SetActive(false);
             other.GetComponent<popUpText>().activateText();
         }
 

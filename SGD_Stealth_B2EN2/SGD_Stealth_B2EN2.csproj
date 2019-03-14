@@ -284,13 +284,13 @@
       <HintPath>Assets/ProCore/ProBuilder/Classes/ClassesLib/Poly2Tri.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
-      <HintPath>C:/Users/nroviros/Documents/GitHub/SGD_StealthPuzzleGame/SGD_Stealth_B2EN2/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Editor.dll</HintPath>
+      <HintPath>C:/Users/nscobee/Desktop/sgd/SGD_StealthPuzzleGame/SGD_Stealth_B2EN2/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
-      <HintPath>C:/Users/nroviros/Documents/GitHub/SGD_StealthPuzzleGame/SGD_Stealth_B2EN2/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/nscobee/Desktop/sgd/SGD_StealthPuzzleGame/SGD_Stealth_B2EN2/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
-      <HintPath>C:/Users/nroviros/Documents/GitHub/SGD_StealthPuzzleGame/SGD_Stealth_B2EN2/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Tracker.dll</HintPath>
+      <HintPath>C:/Users/nscobee/Desktop/sgd/SGD_StealthPuzzleGame/SGD_Stealth_B2EN2/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Tracker.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
@@ -699,6 +699,7 @@
     <Compile Include="Assets\Scripts\popUpText.cs" />
     <Compile Include="Assets\Scripts\popUpTextAbe.cs" />
     <Compile Include="Assets\Scripts\puzzleController.cs" />
+    <Compile Include="Assets\splashPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Civil war assets\civil war assets credits.txt" />

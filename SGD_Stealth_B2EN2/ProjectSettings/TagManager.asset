@@ -15,6 +15,13 @@ TagManager:
   - buttonPush
   - buttonPushAbe
   - Abe
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - correctWeight
   layers:
   - Default
   - TransparentFX

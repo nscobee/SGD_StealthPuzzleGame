@@ -37,7 +37,10 @@ public class itemMatching : MonoBehaviour
             if(puzzleNumber == 1 && !isItem)
                 puzzleControls.puzzle1 += 15;
             if (puzzleNumber == 2 && !isItem)
-                puzzleControls.puzzle2 += 15;
+            {
+                puzzleControls.puzzle2 += 17;
+                this.gameObject.GetComponent<Renderer>().material = correctItem;
+            }
             if (puzzleNumber == 3 && !isItem)
             {
                 puzzleControls.puzzle3 += 15;
@@ -45,12 +48,13 @@ public class itemMatching : MonoBehaviour
             }
             
             if (puzzleNumber == 4 && !isItem)
-                puzzleControls.puzzle4 += 15;
+                puzzleControls.puzzle4 += 105;
 
         }
         else
         {
-            if (puzzleNumber == 3 && other.GetComponent<itemMatching>()) this.gameObject.GetComponent<Renderer>().material = wrongItem;
+            if (puzzleNumber == 3 && !isItem && other.gameObject.GetComponent<itemMatching>()) this.gameObject.GetComponent<Renderer>().material = wrongItem;
+            if (puzzleNumber == 2 && !isItem && other.gameObject.GetComponent<itemMatching>()) this.gameObject.GetComponent<Renderer>().material = wrongItem;
 
         }
     }
