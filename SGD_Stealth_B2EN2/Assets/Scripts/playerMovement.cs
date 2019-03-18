@@ -33,10 +33,8 @@ public class playerMovement : MonoBehaviour
         rotX = rot.x;
     }
 
-    // Update is called once per frame
-    void  FixedUpdate()
+    private void Update()
     {
-
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             isRunning = true;
@@ -52,8 +50,32 @@ public class playerMovement : MonoBehaviour
             if (speed > MAXSPEED) speed = MAXSPEED;
         }
 
+       
+        //letting Go of Objects
+        if (isHolding)
+        {
+            interactTxt.text = "Press 'F' to drop.";
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                this.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                interactPanel.gameObject.SetActive(false);
+                heldItem.transform.SetParent(null);
+                heldItem.GetComponent<Rigidbody>().useGravity = true;
+                heldItem.GetComponent<Rigidbody>().isKinematic = false;
+                isHolding = false;
+            }
+        }
+    }
+
+    // Update is called once per frame
+    void  FixedUpdate()
+    {
+
+        
+
         if (canMove)
         {
+            Cursor.lockState = CursorLockMode.Locked;
             //movement
             if (Input.GetKey(KeyCode.W))
             {
@@ -71,33 +93,32 @@ public class playerMovement : MonoBehaviour
             {
                 transform.position += -transform.right * speed * Time.deltaTime;
             }
+
+            float mouseX = Input.GetAxis("Mouse X");
+            float mouseY = -Input.GetAxis("Mouse Y");
+
+            rotY += mouseX * mouseSensitivity * Time.deltaTime;
+            //rotX += mouseY * mouseSensitivity * Time.deltaTime;
+
+            //rotX = Mathf.Clamp(rotX, -clampAngle, clampAngle);
+
+            Quaternion localRotation = Quaternion.Euler(0.0f, rotY, 0.0f);
+            transform.rotation = localRotation;
+
         }
-
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = -Input.GetAxis("Mouse Y");
-
-        rotY += mouseX * mouseSensitivity * Time.deltaTime;
-        //rotX += mouseY * mouseSensitivity * Time.deltaTime;
-
-        //rotX = Mathf.Clamp(rotX, -clampAngle, clampAngle);
-
-        Quaternion localRotation = Quaternion.Euler(0.0f, rotY, 0.0f);
-        transform.rotation = localRotation;
-
-
-        //letting Go of Objects
-        if(isHolding)
+        else if (!canMove)
         {
-            interactTxt.text = "Press 'F' to drop.";
-            if(Input.GetKeyDown(KeyCode.F))
-            {
-                interactPanel.gameObject.SetActive(false);
-                heldItem.transform.SetParent(null);
-                heldItem.GetComponent<Rigidbody>().useGravity = true;
-                heldItem.GetComponent<Rigidbody>().isKinematic = false;
-                isHolding = false;
-            }
+            
+            this.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            //transform.position = transform.position;
+           // Quaternion localRotationStationary = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+            //transform.rotation = localRotationStationary;
         }
+
+       
+
+
+       
     }
 
     private void OnTriggerEnter(Collider other)
@@ -122,7 +143,7 @@ public class playerMovement : MonoBehaviour
             interactTxt.text = "You can't do this yet.";
         }
 
-        else if (!isHolding && (other.gameObject.tag == "moveable" || !other.gameObject.GetComponent<itemMatching>().hasMatched))
+        else if (!isHolding && (other.gameObject.tag == "moveable" || (!other.gameObject.GetComponent<itemMatching>().hasMatched && other.gameObject.GetComponent<itemMatching>().isItem)))
         {
             interactPanel.gameObject.SetActive(true);
             interactTxt.text = "Press 'E' to pickup.";
@@ -133,7 +154,8 @@ public class playerMovement : MonoBehaviour
     {
         if (other.tag == "Abe" && Input.GetKeyDown(KeyCode.E) && puzzleControls.puzzle1 >= 80)
         {
-            other.GetComponent<popUpTextAbe>().activateText();
+            Cursor.lockState = CursorLockMode.None;
+            other.GetComponent<popUpTextAbe>().ActivateText();
             interactPanel.gameObject.SetActive(false);
         }
 
@@ -144,8 +166,9 @@ public class playerMovement : MonoBehaviour
             other.GetComponent<popUpText>().activateText();
         }
 
-        else if(Input.GetKeyDown(KeyCode.E) && ( other.gameObject.tag == "moveable" || !other.gameObject.GetComponent<itemMatching>().hasMatched))
+        else if(Input.GetKeyDown(KeyCode.E) && ( other.gameObject.tag == "moveable" || (!other.gameObject.GetComponent<itemMatching>().hasMatched && other.gameObject.GetComponent<itemMatching>().isItem)))
         {
+            this.GetComponent<Rigidbody>().velocity = Vector3.zero;
             other.gameObject.transform.SetParent(pickUpRegion.transform);
             other.transform.localRotation = pickUpRegion.rotation;
             other.transform.position = pickUpRegion.position;
@@ -167,6 +190,15 @@ public class playerMovement : MonoBehaviour
         {
             interactPanel.gameObject.SetActive(false);
         }
+    }
+
+    public void ForceDropItem()
+    {
+        interactPanel.gameObject.SetActive(false);
+        heldItem.transform.SetParent(null);
+        heldItem.GetComponent<Rigidbody>().useGravity = true;
+        heldItem.GetComponent<Rigidbody>().isKinematic = false;
+        isHolding = false;
     }
 
 }

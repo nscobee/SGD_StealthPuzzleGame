@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class puzzleController : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class puzzleController : MonoBehaviour
     public int puzzle2 = 0;
     public int puzzle3 = 0;
     public int puzzle4 = 0;
+
+    public int numPuzzlesCompleted = 0;
 
     public GameObject blockade1;
     public GameObject blockade2;
@@ -19,12 +22,16 @@ public class puzzleController : MonoBehaviour
     public GameObject door3;
     public GameObject door4;
 
+    public Text interactTxt;
+    public GameObject interactPnl;
+
     public GameObject playerController;
     public Transform teleLocation;
+    private bool keyDown = false;
 
     public Camera main;
     public Camera secondary;
-    private bool cameraBool = true;
+    public bool onMainCamera = true;
 
     // Start is called before the first frame update
     void Start()
@@ -36,86 +43,92 @@ public class puzzleController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!onMainCamera && Input.anyKeyDown)
+        {
+            onMainCamera = true;
+            print(onMainCamera + " inside method");
+            print("changeee");
+            interactPnl.SetActive(false);
+            playerController.GetComponent<playerMovement>().enabled = true;
+            main.enabled = true;
+            secondary.enabled = false;
+            
+        }
+
+      
         if (puzzle1 >= 100 && puzzle1 < 200)
         {
-            main.enabled = false;
-            secondary.enabled = true;
-            Destroy(blockade1);
+            print("puzzle calling");
+            onMainCamera = false;
+            keyDown = false;
+            if (numPuzzlesCompleted == 1) cameraCutscene(blockade1);
+            if (numPuzzlesCompleted == 2) cameraCutscene(blockade2);
+            if (numPuzzlesCompleted == 3) cameraCutscene(blockade3);
+            if (numPuzzlesCompleted == 4) cameraCutscene(blockade4);
             puzzle1 = 250;
             door1.GetComponent<doorScript>().canOpen = false;
-            door2.GetComponent<doorScript>().canOpen = true;
-            StartCoroutine(PausePlayer());
 
         }
         if (puzzle2 >= 100 && puzzle2 < 200)
         {
-            main.enabled = false;
-            secondary.enabled = true;
-            Destroy(blockade2);
+            onMainCamera = false;
+            keyDown = false;
+            if (numPuzzlesCompleted == 1) cameraCutscene(blockade1);
+            if (numPuzzlesCompleted == 2) cameraCutscene(blockade2);
+            if (numPuzzlesCompleted == 3) cameraCutscene(blockade3);
+            if (numPuzzlesCompleted == 4) cameraCutscene(blockade4);
             puzzle2 = 250;
             door2.GetComponent<doorScript>().canOpen = false;
-            door3.GetComponent<doorScript>().canOpen = true;
-            StartCoroutine(PausePlayer());
+
         }
         if (puzzle3 >= 100 && puzzle3 < 200)
         {
-            main.enabled = false;
-            secondary.enabled = true;
-            Destroy(blockade3);
+            onMainCamera = false;
+            keyDown = false;
+            if (numPuzzlesCompleted == 1) cameraCutscene(blockade1);
+            if (numPuzzlesCompleted == 2) cameraCutscene(blockade2);
+            if (numPuzzlesCompleted == 3) cameraCutscene(blockade3);
+            if (numPuzzlesCompleted == 4) cameraCutscene(blockade4);
             puzzle3 = 250;
             door3.GetComponent<doorScript>().canOpen = false;
-            door4.GetComponent<doorScript>().canOpen = true;
-            StartCoroutine(PausePlayer());
+
         }
         if (puzzle4 >= 100 && puzzle4 < 200)
         {
-            main.enabled = false;
-            secondary.enabled = true;
-            Destroy(blockade4);
+            onMainCamera = false;
+            keyDown = false;
+            if (numPuzzlesCompleted == 1) cameraCutscene(blockade1);
+            if (numPuzzlesCompleted == 2) cameraCutscene(blockade2);
+            if (numPuzzlesCompleted == 3) cameraCutscene(blockade3);
+            if (numPuzzlesCompleted == 4) cameraCutscene(blockade4);
             puzzle4 = 250;
             door4.GetComponent<doorScript>().canOpen = false;
-            StartCoroutine(PausePlayer());
+
         }
 
-        //Testing Only
-        if(Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            switchCamera();
-        }
 
        
     }
 
-    private void switchCamera()
+    private void cameraCutscene(GameObject blockade)
     {
-        if(cameraBool)
+        if (!keyDown)
         {
+            print("I am being run");
+            Destroy(blockade);
+            interactPnl.SetActive(true);
+            interactTxt.text = "Press any Key to Continue..";
+            playerController.GetComponent<playerMovement>().enabled = false;
             main.enabled = false;
             secondary.enabled = true;
-            cameraBool = false;
+            keyDown = true;
         }
-        else
-        {
-            main.enabled = true;
-            secondary.enabled = false;
-            cameraBool = true;
-        }
-    }
-
-    public void puzzleComplete()  //probably not used but w/e
-    {
-        //movePlayertoStarSpace
 
     }
 
-    IEnumerator PausePlayer()
-    {
-        playerController.GetComponent<playerMovement>().enabled = false;
-        yield return new WaitForSecondsRealtime(4);
-        playerController.GetComponent<playerMovement>().enabled = true;
-        main.enabled = true;
-        secondary.enabled = false;
-        playerController.transform.position = teleLocation.position;
+   
 
-    }
-}
+
+
+
+ }

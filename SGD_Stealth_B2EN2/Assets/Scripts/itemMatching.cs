@@ -28,33 +28,42 @@ public class itemMatching : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if( baseTag == other.gameObject.tag && !hasMatched)
+        if( (baseTag == other.gameObject.tag) && !hasMatched)
         {
+            
             hasMatched = true;
-            other.gameObject.tag = "matched";
             other.gameObject.GetComponent<itemMatching>().hasMatched = true;
             
             if(puzzleNumber == 1 && !isItem)
                 puzzleControls.puzzle1 += 15;
+
             if (puzzleNumber == 2 && !isItem)
             {
                 puzzleControls.puzzle2 += 17;
+                if (puzzleControls.puzzle2 >= 100) puzzleControls.numPuzzlesCompleted++;
                 this.gameObject.GetComponent<Renderer>().material = correctItem;
             }
             if (puzzleNumber == 3 && !isItem)
             {
                 puzzleControls.puzzle3 += 15;
+                if (puzzleControls.puzzle3 >= 100) puzzleControls.numPuzzlesCompleted++;
                 this.gameObject.GetComponent<Renderer>().material = correctItem;
             }
-            
-            if (puzzleNumber == 4 && !isItem)
-                puzzleControls.puzzle4 += 105;
+
+            if (puzzleNumber == 4 && hasMatched)
+            {
+                print("Done!");
+                puzzleControls.puzzle4 = 105;
+                puzzleControls.numPuzzlesCompleted++;
+                GameObject.FindGameObjectWithTag("Player").GetComponent<playerMovement>().ForceDropItem();
+            }
+
 
         }
         else
         {
-            if (puzzleNumber == 3 && !isItem && other.gameObject.GetComponent<itemMatching>()) this.gameObject.GetComponent<Renderer>().material = wrongItem;
-            if (puzzleNumber == 2 && !isItem && other.gameObject.GetComponent<itemMatching>()) this.gameObject.GetComponent<Renderer>().material = wrongItem;
+            if (puzzleNumber == 3 && !isItem && other.gameObject.GetComponent<itemMatching>() && !hasMatched && other.gameObject.tag != "range") this.gameObject.GetComponent<Renderer>().material = wrongItem;
+            if (puzzleNumber == 2 && !isItem && other.gameObject.GetComponent<itemMatching>() && !hasMatched && other.gameObject.tag != "range") this.gameObject.GetComponent<Renderer>().material = wrongItem;
 
         }
     }

@@ -8,6 +8,7 @@ public class popUpText : MonoBehaviour
     public string message;
     public Text messageTxt;
     public GameObject messagePanel;
+    public GameObject continuePanel;
     public puzzleController puzzleControls;
     public GameObject cameraLook;
     public GameObject player;
@@ -17,14 +18,15 @@ public class popUpText : MonoBehaviour
 
     public bool isCritical = false;
     private bool hasRead = false;
-    private bool isOpen = false;
+    public bool isOpen = false;
     public bool isWill = false;
     
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        cameraSens = cameraLook.GetComponent<cameraController>().mouseSensitivity;
+        playerSens = player.GetComponent<playerMovement>().mouseSensitivity;
     }
 
     // Update is called once per frame
@@ -54,11 +56,12 @@ public class popUpText : MonoBehaviour
 
         setText();
         messagePanel.SetActive(true);
+        continuePanel.SetActive(true);
 
-        cameraSens = cameraLook.GetComponent<cameraController>().mouseSensitivity;
+        
         cameraLook.GetComponent<cameraController>().mouseSensitivity = 0;
 
-        playerSens = player.GetComponent<playerMovement>().mouseSensitivity;
+        
         player.GetComponent<playerMovement>().mouseSensitivity = 0;
         player.GetComponent<playerMovement>().canMove = false;
 
@@ -68,6 +71,7 @@ public class popUpText : MonoBehaviour
     public void deactivateText()
     {
         messagePanel.SetActive(false);
+        continuePanel.SetActive(false);
         cameraLook.GetComponent<cameraController>().mouseSensitivity = cameraSens;
         player.GetComponent<playerMovement>().mouseSensitivity = playerSens;
         player.GetComponent<playerMovement>().canMove = true;

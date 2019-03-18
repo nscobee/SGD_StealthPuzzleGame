@@ -3,17 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class popUpTextAbe : MonoBehaviour
+public class popUpTextAbe : popUpText
 { 
 
     public GameObject messagePanelAbe;
-    public puzzleController puzzleControls;
-    public GameObject cameraLook;
-    public GameObject player;
-
-    private float cameraSens;
-    private float playerSens;
-
+    
     public Dropdown answer1;
     public Dropdown answer2;
     public Dropdown answer3;
@@ -24,12 +18,13 @@ public class popUpTextAbe : MonoBehaviour
     public int correctAnswer3;
     public int correctAnswer4;
 
-    private bool isOpen = false;
+    private bool isComplete = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        cameraSens = cameraLook.GetComponent<cameraController>().mouseSensitivity;
+        playerSens = player.GetComponent<playerMovement>().mouseSensitivity;
     }
 
     // Update is called once per frame
@@ -37,22 +32,23 @@ public class popUpTextAbe : MonoBehaviour
     {
         if (isOpen)
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                deactivateText();
+                DeactivateText();
             }
         }
 
         if(correctAnswer1 == answer1.value && correctAnswer2 == answer2.value && correctAnswer3 == answer3.value && correctAnswer4 == answer4.value)
         {
-            completePuzzle();
+            if(!isComplete)
+                completePuzzle();
         }
     }
 
-    public void activateText()
+    public void ActivateText()
     {
         messagePanelAbe.SetActive(true);
-        cameraSens = cameraLook.GetComponent<cameraController>().mouseSensitivity;
+        continuePanel.SetActive(true);
         cameraLook.GetComponent<cameraController>().mouseSensitivity = 0;
 
         playerSens = player.GetComponent<playerMovement>().mouseSensitivity;
@@ -62,9 +58,10 @@ public class popUpTextAbe : MonoBehaviour
         isOpen = true;
     }
 
-    public void deactivateText()
+    public void DeactivateText()
     {
         messagePanelAbe.SetActive(false);
+        continuePanel.SetActive(false);
         cameraLook.GetComponent<cameraController>().mouseSensitivity = cameraSens;
         player.GetComponent<playerMovement>().mouseSensitivity = playerSens;
         player.GetComponent<playerMovement>().canMove = true;
@@ -73,7 +70,14 @@ public class popUpTextAbe : MonoBehaviour
 
     private void completePuzzle()
     {
-        deactivateText();
-        puzzleControls.puzzle1 = 100;
+        if (!isComplete)
+        {
+            puzzleControls.numPuzzlesCompleted++;
+            isComplete = true;
+        }
+
+        DeactivateText();
+        puzzleControls.puzzle1 = 105;
+        
     }
 }

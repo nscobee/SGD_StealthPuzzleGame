@@ -6,11 +6,12 @@ using UnityEngine.UI;
 public class doorScript : MonoBehaviour
 {
     public bool canOpen = false;
-    public Transform teleLocation;
+    public Transform teleportLocation;
     public Text interactTxt;
     public GameObject interactPanel;
     public puzzleController puzzleControls;
-    public Transform teleBackLocation;
+    //public Transform teleBackLocation;
+    //public string roomTarget;
 
 
     // Start is called before the first frame update
@@ -29,8 +30,9 @@ public class doorScript : MonoBehaviour
     {
         if(canOpen)
         {
-            GameObject.FindGameObjectWithTag("Player").transform.position = teleLocation.position;
-            puzzleControls.teleLocation = teleBackLocation;
+            print("teleporting to " + teleportLocation.gameObject);
+            GameObject.FindGameObjectWithTag("Player").transform.position = teleportLocation.position;
+            //puzzleControls.teleLocation = teleBackLocation;
         }
 
         else

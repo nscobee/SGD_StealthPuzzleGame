@@ -5,6 +5,7 @@ using UnityEngine;
 public class gameClear : MonoBehaviour
 {
     public Transform playerSpawn;
+    public Transform playerStartingRoomPos;
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +18,12 @@ public class gameClear : MonoBehaviour
     {
         
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        GameObject.FindGameObjectWithTag("Player").transform.position = playerStartingRoomPos.position;
+    }
+
 
     private void OnTriggerEnter(Collider other)
     {
